@@ -1,0 +1,27 @@
+.hn-story {
+  margin-bottom: 10px;
+}
+
+.hn-story h1 {
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin: 0 0 5px;
+}
+
+.hn-story a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.hn-story a:visited {
+  color: #565656;
+}
+
+.hn-story a:hover,
+.hn-story a:focus {
+  text-decoration: underline;
+}
+
+.hn-story footer {
+  font-size: 1.2rem;
+}

@@ -1,0 +1,9 @@
+.story-list {
+  list-style-type: "-  ";
+  margin: 0;
+  padding-left: 20px;
+}
+
+.story-list li {
+  margin-bottom: 15px;
+}

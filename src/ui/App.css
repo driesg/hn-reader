@@ -1,0 +1,39 @@
+html {
+  /*
+   a small trick to allow us to write font sizes using rem values but with px in mind
+   see https://snook.ca/archives/html_and_css/font-size-with-rem
+  */
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  background: #fafafa;
+  color: #333;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  margin: 0;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hn-reader {
+  margin: 35px auto;
+  padding: 0 10px;
+  width: 100vw;
+  max-width: 500px;
+}
+
+.hn-reader > h1 {
+  margin: 0 0 30px;
+  font-size: 1.8rem;
+}

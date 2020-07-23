@@ -28,11 +28,9 @@ ideas/notes:
 - abstract away hacker news. Allow for potential other sources
 - need to walk backwards after getting the latest item and render as soon as possible
 - 3 layers:
-  - UI 
+  - UI
   - Hackernews Reader App (core business logic)
   - Hacker News API client
-
-
 
 #### Stage 2: Offline capabilities
 
@@ -92,6 +90,10 @@ Chosen to get the boilerplate out of the way. CRA takes care of initialising the
 The purpose of this application is building a HN reader using JavaScript. Styling is kept to a minimum.
 
 Frameworks like CSS Modules, Emotion, Styled Components or Compiled can be explored should this application ever evolve. For now they're considered excessive.
+
+### Packages
+
+- [Jest Fetch Mock](https://www.npmjs.com/package/jest-fetch-mock) is an easy way to mock fetch calls for testing purposes.
 
 ---
 

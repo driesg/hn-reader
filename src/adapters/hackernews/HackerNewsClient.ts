@@ -1,6 +1,26 @@
 import { NewsClient } from "../../core/NewsClient";
 import { ItemNotFoundError } from "../../core/utils/ItemNotFoundError";
 
+export interface HNItem {
+  by?: string;
+  dead?: boolean;
+  deleted?: boolean;
+  id: number;
+  time?: number;
+  type?: string;
+  title?: string;
+  url?: string;
+}
+
+interface HNStory extends HNItem {
+  descendants?: number;
+  kids?: number[];
+  score?: number;
+  type: "story";
+}
+
+export type HNApiResponse = HNStory | HNItem;
+
 /**
  * HackerNewsClient is a simple wrapper around the HN API.
  * The

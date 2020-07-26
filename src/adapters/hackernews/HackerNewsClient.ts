@@ -1,4 +1,5 @@
 import { NewsClient } from "../../core/NewsClient";
+import { FetchError } from "../../core/utils/FetchError";
 import { ItemNotFoundError } from "../../core/utils/ItemNotFoundError";
 
 export interface HNItem {
@@ -50,12 +51,12 @@ export class HackerNewsClient implements NewsClient {
       headers: new Headers({
         Accept: "application/json",
       }),
+    }).catch((_error) => {
+      throw new FetchError(`fetch failed for ${this.baseUrl}${path}`);
     });
-    // TODO network error handling
-    // TODO non-200 handling
 
-    if (!response.ok) {
-      console.error("request failure", response);
+    if (response.status >= 400) {
+      throw new Error(`Error ${response.status} ${response.statusText}`);
     }
     const result: T = await response.json();
     return result;

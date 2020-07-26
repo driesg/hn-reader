@@ -4,6 +4,21 @@ import { HackerNewsClient } from "./HackerNewsClient";
 
 const testUrl = "http://fake-hacker-news-base-url";
 
+const init404 = {
+  status: 404,
+  statusText: "Not Found",
+};
+
+const init500 = {
+  status: 500,
+  statusText: "Internal Server Error",
+};
+
+const init401 = {
+  status: 401,
+  statusText: "Unauthorized",
+};
+
 describe("HackerNewsClient", () => {
   let apiClient: HackerNewsClient;
 
@@ -17,18 +32,41 @@ describe("HackerNewsClient", () => {
 
   describe("error handling", () => {
     it("throws an error when the request fails", async () => {
-      fetchMock.mockRejectOnce(new Error("fake error message"));
+      fetchMock.mockRejectOnce();
 
       await expect(apiClient.getLatestItemId()).rejects.toThrow(
-        "fake error message"
+        "fetch failed for http://fake-hacker-news-base-url/maxitem.json"
       );
     });
 
-    it("throws an error when the request aborts", async () => {
-      fetchMock.mockAbortOnce();
+    it("throws an error when receiving a client error response", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({ error: "Permission denied" }),
+        init401
+      );
 
       await expect(apiClient.getLatestItemId()).rejects.toThrow(
-        "The operation was aborted."
+        "Error 401 Unauthorized"
+      );
+
+      fetchMock.mockResponseOnce(
+        JSON.stringify({ error: "Resource not found" }),
+        init404
+      );
+
+      await expect(apiClient.getLatestItemId()).rejects.toThrow(
+        "Error 404 Not Found"
+      );
+    });
+
+    it("throws an error when receiving a server error response", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({ error: "Server is broken" }),
+        init500
+      );
+
+      await expect(apiClient.getLatestItemId()).rejects.toThrow(
+        "Error 500 Internal Server Error"
       );
     });
   });

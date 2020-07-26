@@ -1,5 +1,6 @@
-import { HackerNewsClient, ItemNotFoundError } from "./HackerNewsClient";
 import { Story } from "../../core/Story";
+import { ItemNotFoundError } from "../../core/utils/ItemNotFoundError";
+import { HackerNewsClient } from "./HackerNewsClient";
 
 const testUrl = "http://fake-hacker-news-base-url";
 

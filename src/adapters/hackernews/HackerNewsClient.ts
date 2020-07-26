@@ -1,15 +1,5 @@
 import { NewsClient } from "../../core/NewsClient";
-
-/**
- * See https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
- */
-export class ItemNotFoundError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = "ItemNotFoundError";
-    Object.setPrototypeOf(this, ItemNotFoundError.prototype);
-  }
-}
+import { ItemNotFoundError } from "../../core/utils/ItemNotFoundError";
 
 /**
  * HackerNewsClient is a simple wrapper around the HN API.
@@ -32,6 +22,7 @@ export class HackerNewsClient implements NewsClient {
    * An internal helper function to fetch and parse the response
    *
    * @param path the path of the resource to make the GET call to
+   * @returns {Promise<object>} the JSON object of the response
    */
   private async getJSON<T>(path: string): Promise<T> {
     const response = await fetch(`${this.baseUrl}${path}`, {
@@ -40,11 +31,12 @@ export class HackerNewsClient implements NewsClient {
         Accept: "application/json",
       }),
     });
+    // TODO network error handling
+    // TODO non-200 handling
 
     if (!response.ok) {
       console.error("request failure", response);
     }
-
     const result: T = await response.json();
     return result;
   }
@@ -54,7 +46,7 @@ export class HackerNewsClient implements NewsClient {
    * by its id
    *
    * @param itemId the id of the item we want to retrieve
-   * @returns a Promise that resolves to the HN item (https://github.com/HackerNews/API#items)
+   * @returns {Promise} the HN item (https://github.com/HackerNews/API#items)
    * or throws an `ItemNotFoundError` in case of a 200 response with `null` body
    */
   async getItem<T>(itemId: number): Promise<T> {
@@ -76,7 +68,7 @@ export class HackerNewsClient implements NewsClient {
   /**
    * Get the most recent items from Hacker News
    *
-   * @returns a Promise resolving to the latest item's ID
+   * @returns {Promise<number>} the latest item's ID
    */
   async getLatestItemId(): Promise<number> {
     const response = await this.getJSON<number>("/maxitem.json");

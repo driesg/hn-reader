@@ -1,17 +1,23 @@
-import * as React from "react";
+import React from "react";
+import { DateTimeFormat, Story as StoryInterface } from "../../core/Story";
 import "./Story.css";
 
-export interface IStoryProps {}
+export interface StoryProps {
+  story: StoryInterface;
+}
 
-export function Story(props: IStoryProps) {
+export function Story({ story }: StoryProps) {
   return (
     <article className="hn-story">
       <h1>
-        <a href="#">This is the story title</a>
+        <a href={story.url}>{story.title}</a>
       </h1>
       <footer>
-        submitted on <time dateTime="2020-07-29">29 July 2020</time> by{" "}
-        <span className="author">Dries</span>
+        submitted on{" "}
+        <time dateTime={story.getCreatedAtDate(DateTimeFormat.ISO)}>
+          {story.getCreatedAtDate()}
+        </time>{" "}
+        by <span className="author">{story.author}</span>
       </footer>
     </article>
   );

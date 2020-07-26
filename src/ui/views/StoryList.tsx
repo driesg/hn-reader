@@ -1,17 +1,24 @@
-import * as React from "react";
-import { Story } from "./Story";
+import React from "react";
+import { Story } from "../../core/Story";
+import { Story as StoryView } from "./Story";
 import "./StoryList.css";
 
-export interface IStoryListProps {}
+export interface StoryListProps {
+  stories: Story[];
+  title: string;
+}
 
-export function StoryList(props: IStoryListProps) {
+export function StoryList({ stories, title }: StoryListProps) {
   return (
-    <ul className="story-list">
-      {[...Array(115)].map((e, idx) => (
-        <li key={idx}>
-          <Story />
-        </li>
-      ))}
-    </ul>
+    <React.Fragment>
+      <h1 className="story-list-title">{title}</h1>
+      <ul className="story-list">
+        {stories.map((story) => (
+          <li key={story.id}>
+            <StoryView story={story} />
+          </li>
+        ))}
+      </ul>
+    </React.Fragment>
   );
 }

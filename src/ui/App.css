@@ -32,8 +32,3 @@ body {
   width: 100vw;
   max-width: 500px;
 }
-
-.hn-reader > h1 {
-  margin: 0 0 30px;
-  font-size: 1.8rem;
-}

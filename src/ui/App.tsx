@@ -6,8 +6,7 @@ export function App() {
   return (
     <div className="app">
       <main className="hn-reader">
-        <h1># Hacker News Story List:</h1>
-        <StoryList />
+        <StoryList stories={stories} title={"# Hacker News Story List"} />
       </main>
     </div>
   );

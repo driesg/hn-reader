@@ -24,6 +24,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .hn-reader {
@@ -31,4 +32,9 @@ body {
   padding: 0 10px;
   width: 100vw;
   max-width: 500px;
+  order: 2;
+}
+
+.hn-reader + .error-msg {
+  order: 1;
 }

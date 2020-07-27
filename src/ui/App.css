@@ -38,3 +38,15 @@ body {
 .hn-reader + .error-msg {
   order: 1;
 }
+
+/* TODO - make this better. It could be rendered on top of stories on smaller screens */
+.hn-reader .loading-indicator {
+  background: #000;
+  bottom: 0;
+  color: #fff;
+  margin: 0;
+  padding: 10px;
+  position: fixed;
+  right: 0;
+  text-align: center;
+}

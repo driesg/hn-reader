@@ -2,6 +2,8 @@
 
 Visit [https://hn-reader.vercel.app/](https://hn-reader.vercel.app/)
 
+⚠️ **Known issue**: due to an issue with the service worker integration ([explained in this commit](https://github.com/driesg/hn-reader/commit/a2b2a1bc8787b7ecf9ef621a946b499953cc0c38))), the pre-cache doesn't work. As a workaround, static assets are saved in the general app cache along with all the stories. Static assets are only saved into the cache on _second_ load.
+
 ## Scripts
 
 - `yarn start` run the application in development mode. Available in the browser at [http://localhost:3000](http://localhost:3000)
@@ -14,12 +16,10 @@ This section contains a list of ideas that can be applied later on. I'll either 
 
 Todo:
 
-- [ ] integration test for app
-- [ ] test for scrolling
-
 Improvements to be made:
 
 - [ ] tests for UI components - maybe visual snapshots?
+- [ ] more integration tests
 - [ ] Service worker improvements. See [commit](https://github.com/driesg/hn-reader/commit/a2b2a1bc8787b7ecf9ef621a946b499953cc0c38)
 - [ ] Create a visual indicator for the user that they are offline
 - [ ] unit test `Story.ts`

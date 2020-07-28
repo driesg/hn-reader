@@ -1,6 +1,6 @@
 import React from "react";
 import { Story } from "../../core/Story";
-import { Story as StoryView } from "./Story";
+import { MemoizedStory as StoryView } from "./Story";
 import "./StoryList.css";
 
 export interface StoryListProps {

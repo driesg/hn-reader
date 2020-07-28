@@ -22,3 +22,5 @@ export function Story({ story }: StoryProps) {
     </article>
   );
 }
+
+export const MemoizedStory = React.memo(Story);

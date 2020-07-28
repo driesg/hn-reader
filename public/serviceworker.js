@@ -1,8 +1,9 @@
 // disable eslint rule so that we can use `self` in the service worker
 /* eslint-disable no-restricted-globals */
 
-const PRE_CACHE = "pre_cache-v1";
-const HN_STORIES = "hackernews-stories-v1";
+const PRE_CACHE = "pre_cache-v2";
+const HN_STORIES = "hackernews-stories-v2";
+const ENABLE_PRE_CACHE = false;
 
 /*
  * TODO add the ability to cache the generated/hashes files.
@@ -29,7 +30,9 @@ self.addEventListener("install", function setupPreCache(event) {
     await preCache.addAll(PRE_CACHE_URLS);
     await self.skipWaiting(); // progress to activating state
   }
-  event.waitUntil(addToCache());
+  if (ENABLE_PRE_CACHE) {
+    event.waitUntil(addToCache());
+  }
 });
 
 /*
@@ -143,5 +146,12 @@ self.addEventListener("fetch", function cacheHackerNewsRequests(event) {
     return event.respondWith(getFromCacheOrFetch(event.request));
   } else if (event.request.url === maxItemURL) {
     return event.respondWith(getNetworkThenCache(event.request));
+  }
+
+  /*
+   * Until we can enable precache to cache our static assets, we should also cache them
+   */
+  if (!ENABLE_PRE_CACHE && event.request.url.startsWith(self.location.origin)) {
+    return event.respondWith(getFromCacheOrFetch(event.request));
   }
 });

@@ -141,17 +141,14 @@ self.addEventListener("fetch", function cacheHackerNewsRequests(event) {
    */
   const itemRegex = /^https:\/\/hacker-news\.firebaseio\.com\/v0\/item\/\d+\.json$/;
   const maxItemURL = "https://hacker-news.firebaseio.com/v0/maxitem.json";
-
-  if (itemRegex.test(event.request.url)) {
-    return event.respondWith(getFromCacheOrFetch(event.request));
-  } else if (event.request.url === maxItemURL) {
-    return event.respondWith(getNetworkThenCache(event.request));
-  }
-
   /*
    * Until we can enable precache to cache our static assets, we should also cache them
    */
   if (!ENABLE_PRE_CACHE && event.request.url.startsWith(self.location.origin)) {
     return event.respondWith(getFromCacheOrFetch(event.request));
+  } else if (itemRegex.test(event.request.url)) {
+    return event.respondWith(getFromCacheOrFetch(event.request));
+  } else if (event.request.url === maxItemURL) {
+    return event.respondWith(getNetworkThenCache(event.request));
   }
 });

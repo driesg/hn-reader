@@ -51,8 +51,8 @@ export class HackerNewsClient implements NewsClient {
       headers: new Headers({
         Accept: "application/json",
       }),
-    }).catch((_error) => {
-      throw new FetchError(`fetch failed for ${this.baseUrl}${path}`);
+    }).catch((error) => {
+      throw new FetchError(`${error.message} ${this.baseUrl}${path}`);
     });
 
     if (response.status >= 400) {

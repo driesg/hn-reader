@@ -5,7 +5,7 @@
 export class FetchError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "ItemNotFoundError";
+    this.name = "FetchError";
     Object.setPrototypeOf(this, FetchError.prototype);
   }
 }

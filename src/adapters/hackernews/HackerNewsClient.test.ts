@@ -1,4 +1,5 @@
 import { Story } from "../../core/Story";
+import { FetchError } from "../../core/utils/FetchError";
 import { ItemNotFoundError } from "../../core/utils/ItemNotFoundError";
 import { HackerNewsClient } from "./HackerNewsClient";
 
@@ -32,14 +33,20 @@ describe("HackerNewsClient", () => {
 
   describe("error handling", () => {
     it("throws an error when the request fails", async () => {
-      fetchMock.mockRejectOnce();
-
-      await expect(apiClient.getLatestItemId()).rejects.toThrow(
-        "fetch failed for http://fake-hacker-news-base-url/maxitem.json"
-      );
+      expect.assertions(2);
+      fetchMock.mockRejectOnce(new FetchError("Fetch Failed"));
+      try {
+        await apiClient.getLatestItemId();
+      } catch (error) {
+        expect(error.message).toBe(
+          "Fetch Failed http://fake-hacker-news-base-url/maxitem.json"
+        );
+        expect(error).toBeInstanceOf(FetchError);
+      }
     });
 
     it("throws an error when receiving a client error response", async () => {
+      expect.assertions(2);
       fetchMock.mockResponseOnce(
         JSON.stringify({ error: "Permission denied" }),
         init401
@@ -60,6 +67,7 @@ describe("HackerNewsClient", () => {
     });
 
     it("throws an error when receiving a server error response", async () => {
+      expect.assertions(1);
       fetchMock.mockResponseOnce(
         JSON.stringify({ error: "Server is broken" }),
         init500
@@ -87,15 +95,14 @@ describe("HackerNewsClient", () => {
 
     describe("getItem", () => {
       it("throws an itemNotFoundError when receiving null as response", async () => {
+        expect.assertions(2);
         fetchMock.mockResponse(JSON.stringify(null));
-        await expect(apiClient.getItem(8863)).rejects.toThrow(
-          ItemNotFoundError
-        );
-        await expect(
-          apiClient.getItem(8863)
-        ).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unable to load item 8863"`
-        );
+        try {
+          await apiClient.getItem(8863);
+        } catch (error) {
+          expect(error.message).toBe("Unable to load item 8863");
+          expect(error).toBeInstanceOf(ItemNotFoundError);
+        }
       });
 
       it("calls the HN item endpoint and returns the specified item", async () => {

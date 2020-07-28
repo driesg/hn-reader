@@ -2,6 +2,7 @@ import { HNApiResponse } from "../adapters/hackernews/HackerNewsClient";
 import { isValidHackerNewsStory } from "../adapters/hackernews/isValidHackerNewsStory";
 import { NewsClient } from "./NewsClient";
 import { Story } from "./Story";
+import { FetchError } from "./utils/FetchError";
 import { ItemNotFoundError } from "./utils/ItemNotFoundError";
 
 type ClientResponse = HNApiResponse;
@@ -111,6 +112,9 @@ export class NewsReader {
           console.warn(
             `item with id ${this.nextItemId} was not found, skipping`
           );
+        } else if (error instanceof FetchError) {
+          console.log(error);
+          throw error;
         } else {
           // Any other error we throw further up so it can be handled by the consumer of this method
           console.log(

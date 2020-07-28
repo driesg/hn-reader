@@ -11,8 +11,8 @@ const HN_STORIES = "hackernews-stories-v1";
  * of scope for this exercise
  */
 const PRE_CACHE_URLS = [
-  "./",
-  "./index.html",
+  "/",
+  "/index.html",
   "./favicon.ico",
   "./logo192.png",
   "./logo512.png",
